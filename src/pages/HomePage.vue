@@ -2,7 +2,7 @@
   <div>
     <div class="nav">
       Сортировка по:
-      <select>
+      <select @change="filterBy($event.target.value)">
         <option value="none">Нет</option>
         <option value="price">Цена</option>
         <option value="rating">Рейтинг</option>
@@ -42,6 +42,11 @@ export default {
       ],
     };
   },
+  methods: {
+    filterBy(property){
+      this.items.sort(( a, b ) =>  b[property] - a[property] );
+    }
+  }
 };
 </script>
 
