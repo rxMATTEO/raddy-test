@@ -56,7 +56,6 @@ export default {
       } else {
         this.items = this.originalItems;
       }
-      console.log(property)
       this.items.sort(compareByPredicate);
     },
   }
