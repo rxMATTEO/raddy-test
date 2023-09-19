@@ -7,7 +7,7 @@
         <option value="price">Цена</option>
         <option value="rating">Рейтинг</option>
       </select>
-      <select>
+      <select v-model="orderBy" @change="filterBy()">
         <option value="min-to-max">По возрастанию</option>
         <option value="max-to-min">По убыванию</option>
       </select>
@@ -40,11 +40,15 @@ export default {
         { id: 3, name: "Third", price: 101, rating: 0.9 },
         { id: 4, name: "Forth", price: 50, rating: 0.6 },
       ],
+      orderBy: 'min-to-max',
+      orderField: null,
     };
   },
   methods: {
-    filterBy(property){
-      this.items.sort(( a, b ) =>  b[property] - a[property] );
+    filterBy(property = this.orderField){
+      this.orderField = property;
+      const compareByPredicate = this.orderBy === 'min-to-max' ? (a,b) => a[property] - b[property] : (a, b) => b[property] - a[property];
+      this.items.sort(compareByPredicate);
     }
   }
 };
