@@ -14,7 +14,7 @@
     </div>
     <div class="nav">
       Фильтр по названию:
-      <input type="text" />
+      <input type="text" v-model="nameFilter" @input="filterBy" />
     </div>
     <hr />
     <div class="elements">
@@ -42,14 +42,22 @@ export default {
       ],
       orderBy: 'min-to-max',
       orderField: null,
+      nameFilter: null,
+      originalItems: null,
     };
   },
   methods: {
     filterBy(property = this.orderField){
       this.orderField = property;
       const compareByPredicate = this.orderBy === 'min-to-max' ? (a,b) => a[property] - b[property] : (a, b) => b[property] - a[property];
+      if(this.nameFilter){
+        this.originalItems = this.originalItems === null ? this.items.concat() : this.originalItems;
+        this.items = [...this.originalItems].filter( (item) => item.name.toLowerCase().includes(this.nameFilter.toLowerCase()) );
+      } else {
+        this.items = this.originalItems;
+      }
       this.items.sort(compareByPredicate);
-    }
+    },
   }
 };
 </script>
